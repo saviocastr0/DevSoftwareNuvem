@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Início - Reesus Odonto</title>
+  <title>Cadastro - Reesus Odonto</title>
   <link rel="stylesheet" href="/styles/style.css" />
   <link rel="stylesheet" href="/styles/fonts.css" />
   <link rel="stylesheet" href="/styles/media.css" />
+  <script src="https://npmcdn.com/parse/dist/parse.min.js"></script>
 </head>
 <body>
   <header>
@@ -26,10 +27,44 @@
   </header>
 
   <main>
-    <section>
+    <section class="cadastro-area">
       <h2>Bem-vindo à <span>Reesus Odonto</span></h2>
-      <p>Cuidando do seu sorriso com tecnologia e carinho!</p>
+      <p>Cadastre-se gratuitamente e agende suas consultas com facilidade!</p>
+
+      <form id="registro-form">
+        <input type="text" id="nome" name="nome" placeholder="Nome completo" required />
+        <input type="email" id="email" name="email" placeholder="Email" required />
+        <input type="password" id="senha" name="senha" placeholder="Senha" required />
+        <input type="submit" value="Cadastrar >" />
+      </form>
     </section>
   </main>
+
+  <script>
+    Parse.initialize("w3r5bVJYUBseLBZRrSe050R18SUsMIN5J4jL7AQp", "h7vE65EBUVEqi6qVA8h8bXw60fEi1nyMILyJhH6C");
+    Parse.serverURL = "https://parseapi.back4app.com/";
+
+    document.getElementById("registro-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const nome = document.getElementById("nome").value;
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+
+      const user = new Parse.User();
+      user.set("username", email);
+      user.set("email", email);
+      user.set("password", senha);
+      user.set("nome", nome);
+
+      try {
+        await user.signUp();
+        alert("Cadastro realizado com sucesso!");
+        window.location.href = "login.html";
+      } catch (error) {
+        alert("Erro ao cadastrar: " + error.message);
+      }
+    });
+  </script>
 </body>
 </html>
