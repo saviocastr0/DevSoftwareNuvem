@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - Reesus Odonto</title>
+  <title>Cadastro - Reesus Odonto</title>
   <link rel="stylesheet" href="/styles/style.css" />
   <script src="https://npmcdn.com/parse/dist/parse.min.js"></script>
 </head>
@@ -26,11 +26,12 @@
 
   <main>
     <section>
-      <h2>Login do <span>Paciente</span></h2>
-      <form id="login-form">
+      <h2>Cadastro do <span>Paciente</span></h2>
+      <form id="registro-form">
+        <input type="text" id="nome" name="nome" placeholder="Nome completo" required />
         <input type="email" id="email" name="email" placeholder="Email" required />
         <input type="password" id="senha" name="senha" placeholder="Senha" required />
-        <input type="submit" value="Entrar >" />
+        <input type="submit" value="Cadastrar >" />
       </form>
     </section>
   </main>
@@ -39,16 +40,24 @@
     Parse.initialize("w3r5bVJYUBseLBZRrSe050R18SUsMIN5J4jL7AQp", "h7vE65EBUVEqi6qVA8h8bXw60fEi1nyMILyJhH6C");
     Parse.serverURL = "https://parseapi.back4app.com/";
 
-    document.getElementById("login-form").addEventListener("submit", async (event) => {
+    document.getElementById("registro-form").addEventListener("submit", async (event) => {
       event.preventDefault();
+      const nome = document.getElementById("nome").value;
       const email = document.getElementById("email").value;
       const senha = document.getElementById("senha").value;
+
+      const user = new Parse.User();
+      user.set("username", email);
+      user.set("email", email);
+      user.set("password", senha);
+      user.set("nome", nome);
+
       try {
-        await Parse.User.logIn(email, senha);
-        alert("Login realizado com sucesso!");
-        window.location.href = "consultas.html";
+        await user.signUp();
+        alert("Cadastro realizado com sucesso!");
+        window.location.href = "login.html";
       } catch (error) {
-        alert("Erro ao fazer login: " + error.message);
+        alert("Erro ao cadastrar: " + error.message);
       }
     });
   </script>
