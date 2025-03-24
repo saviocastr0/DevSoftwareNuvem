@@ -51,13 +51,19 @@
 
     document.getElementById("consulta-form").addEventListener("submit", async (event) => {
       event.preventDefault();
+
       const data = document.getElementById("data").value;
       const hora = document.getElementById("hora").value;
-      const dataHora = new Date(`${data}T${hora}:00`);
+      const datahora = new Date(`${data}T${hora}:00`);
+
+      if (isNaN(datahora.getTime())) {
+        alert("Data ou hora inválida.");
+        return;
+      }
 
       const Consulta = Parse.Object.extend("Consulta");
       const novaConsulta = new Consulta();
-      novaConsulta.set("dataHora", dataHora);
+      novaConsulta.set("datahora", datahora); // ✅ Nome correto do campo
       novaConsulta.set("paciente", user);
 
       try {
